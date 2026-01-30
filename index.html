@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-	<link rel="manifest" href="manifest.json">
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta charset="UTF-8">
-    <title>Digit Code - Master Edition Color Logic</title>
+    <title>Digit Code - App Oficial</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
     <style>
         :root {
             --bg-sheet: #ffffff;
@@ -21,97 +23,103 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px;
+            padding: 10px;
             margin: 0;
+            touch-action: manipulation;
         }
 
         /* GUÍA VISUAL SUPERIOR */
         .digit-reference {
             display: flex;
-            gap: 15px;
+            gap: 10px;
             background: rgba(0,0,0,0.1);
-            padding: 15px 25px;
+            padding: 10px;
             border-radius: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             border: 1px solid rgba(255,255,255,0.3);
+            flex-wrap: wrap;
+            justify-content: center;
         }
         .ref-item { display: flex; flex-direction: column; align-items: center; opacity: 0.7; }
-        .ref-num { font-weight: bold; color: #000; margin-bottom: 5px; font-size: 14px; }
-        .mini-seg-grid { position: relative; width: 20px; height: 35px; }
+        .ref-num { font-weight: bold; color: #000; margin-bottom: 3px; font-size: 12px; }
+        .mini-seg-grid { position: relative; width: 16px; height: 28px; }
         .ms { position: absolute; background: #bbb; border-radius: 1px; }
-        .m-h { height: 3px; left: 4px; right: 4px; }
-        .m-v { width: 3px; height: 12px; }
+        .m-h { height: 2px; left: 3px; right: 3px; }
+        .m-v { width: 2px; height: 10px; }
         .active-ref { background: #000 !important; }
 
-        .wrapper { display: flex; gap: 20px; max-width: 1350px; width: 100%; }
+        .wrapper { display: flex; flex-direction: column; gap: 20px; max-width: 600px; width: 100%; }
 
         /* HOJA DE DEDUCCIÓN */
         .sheet {
             background: var(--bg-sheet);
-            padding: 25px;
+            padding: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.4);
             border-radius: 4px;
-            flex-grow: 1;
             border: 1px solid #666;
         }
 
         .header-title { 
-            text-align: center; font-weight: 900; font-size: 30px; 
-            margin-bottom: 20px; border-bottom: 4px solid #000; padding-bottom: 10px;
+            text-align: center; font-weight: 900; font-size: 24px; 
+            margin-bottom: 15px; border-bottom: 4px solid #000; padding-bottom: 5px;
         }
 
         .game-grid { 
-            display: grid; grid-template-columns: 80px 1fr 40px 1fr 40px 1fr; 
+            display: grid; grid-template-columns: 60px 1fr 35px 1fr 35px 1fr; 
             align-items: center; gap: 5px;
         }
 
-        .labels-side { display: flex; flex-direction: column; gap: 12px; border-right: 3px solid #000; padding-right: 10px; }
-        .label-row { display: flex; align-items: center; justify-content: flex-end; gap: 8px; height: 22px; font-weight: bold; }
-        .label-row input { width: 25px; height: 18px; text-align: center; border: 1px solid #ccc; }
+        .labels-side { display: flex; flex-direction: column; gap: 10px; border-right: 3px solid #000; padding-right: 5px; }
+        .label-row { display: flex; align-items: center; justify-content: flex-end; gap: 5px; height: 20px; font-weight: bold; font-size: 14px; }
+        .label-row input { width: 22px; height: 18px; text-align: center; border: 1px solid #ccc; }
 
-        .digit-block { display: flex; flex-direction: column; align-items: center; padding: 5px; }
+        .digit-block { display: flex; flex-direction: column; align-items: center; padding: 2px; }
         
-        .abc-header { display: flex; gap: 12px; margin-bottom: 5px; }
-        .abc-item { display: flex; flex-direction: column; align-items: center; font-size: 11px; font-weight: bold; }
-        .abc-item input { width: 20px; height: 16px; text-align: center; border: 1px solid #ccc; }
+        .abc-header { display: flex; gap: 8px; margin-bottom: 5px; }
+        .abc-item { display: flex; flex-direction: column; align-items: center; font-size: 10px; font-weight: bold; }
+        .abc-item input { width: 18px; height: 15px; text-align: center; border: 1px solid #ccc; }
 
-        .digit-visual { position: relative; width: 60px; height: 100px; background: #fff; border: 1px solid #eee; }
+        .digit-visual { position: relative; width: 50px; height: 85px; background: #fff; border: 1px solid #eee; }
         .seg { position: absolute; background: var(--st-off); border: 1px solid #ddd; cursor: pointer; }
-        .seg-h { height: 10px; left: 12px; right: 12px; }
-        .seg-v { width: 10px; height: 35px; }
-        .s-a { top: 0; } .s-g { top: 45px; } .s-d { bottom: 0; }
-        .s-f { left: 0; top: 5px; } .s-b { right: 0; top: 5px; }
-        .s-e { left: 0; top: 60px; } .s-c { right: 0; top: 60px; }
+        .seg-h { height: 8px; left: 10px; right: 10px; }
+        .seg-v { width: 8px; height: 30px; }
+        .s-a { top: 0; } .s-g { top: 38px; } .s-d { bottom: 0; }
+        .s-f { left: 0; top: 4px; } .s-b { right: 0; top: 4px; }
+        .s-e { left: 0; top: 51px; } .s-c { right: 0; top: 51px; }
 
         .st-1 { background: var(--st-on) !important; border-color: #000; }
         .st-2 { background: var(--st-cross) !important; opacity: 0.4; }
 
         .comp { 
-            width: 32px; height: 32px; border: 2px solid #000; border-radius: 50%; 
+            width: 30px; height: 30px; border: 2px solid #000; border-radius: 50%; 
             display: flex; align-items: center; justify-content: center; font-weight: bold; background: #fff; cursor: pointer;
+            font-size: 16px;
         }
-        .v-comps { grid-column: 2 / 7; display: flex; justify-content: space-around; padding: 15px 0; }
+        .v-comps { grid-column: 2 / 7; display: flex; justify-content: space-around; padding: 10px 0; }
 
-        .scratch-pad { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; margin-top: 10px; }
-        .num-pick { font-size: 11px; width: 18px; height: 18px; border: 1px solid #ddd; cursor: pointer; text-align: center; line-height: 18px; }
+        /* Rotación de símbolos para vertical */
+        .rotate-90 { transform: rotate(90deg); display: inline-block; }
+
+        .scratch-pad { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; margin-top: 8px; }
+        .num-pick { font-size: 10px; width: 16px; height: 16px; border: 1px solid #ddd; cursor: pointer; text-align: center; line-height: 16px; }
         .num-pick.scratched { text-decoration: line-through; color: #ccc; background: #fafafa; }
 
         /* PANEL IA */
-        .ai-panel { background: #263238; color: #fff; width: 340px; padding: 20px; border-radius: 12px; height: fit-content; position: sticky; top: 20px; }
-        .ai-panel h3 { color: var(--accent-blue); margin-top: 0; text-align: center; font-size: 18px; text-transform: uppercase; }
-        .q-box { background: #37474f; padding: 12px; margin-bottom: 10px; border-radius: 6px; border-left: 4px solid var(--accent-blue); }
-        .q-box label { font-size: 12px; font-weight: bold; display: block; margin-bottom: 8px; color: #cfd8dc; }
+        .ai-panel { background: #263238; color: #fff; padding: 15px; border-radius: 12px; }
+        .ai-panel h3 { color: var(--accent-blue); margin-top: 0; text-align: center; font-size: 16px; text-transform: uppercase; }
+        .q-box { background: #37474f; padding: 10px; margin-bottom: 10px; border-radius: 6px; border-left: 4px solid var(--accent-blue); }
+        .q-box label { font-size: 11px; font-weight: bold; display: block; margin-bottom: 5px; color: #cfd8dc; }
         
-        select, button { width: 100%; padding: 8px; border-radius: 4px; border: none; font-size: 13px; }
+        select, button { width: 100%; padding: 10px; border-radius: 4px; border: none; font-size: 14px; }
         button { background: var(--accent-blue); color: #000; font-weight: bold; cursor: pointer; margin-top: 5px; }
         
-        #log { background: #000; color: #00e676; height: 250px; overflow-y: auto; padding: 10px; font-family: monospace; font-size: 12px; border: 2px solid #455a64; margin-top: 10px; }
+        #log { background: #000; height: 200px; overflow-y: auto; padding: 10px; font-family: monospace; font-size: 12px; border: 1px solid #455a64; margin-top: 10px; border-radius: 4px;}
         
-        .setup-box { border: 2px dashed #546e7a; padding: 12px; margin-bottom: 15px; text-align: center; border-radius: 8px; }
+        .setup-box { border: 2px dashed #546e7a; padding: 10px; margin-bottom: 15px; text-align: center; border-radius: 8px; }
         .setup-inputs { display: flex; gap: 5px; justify-content: center; margin-top: 8px; }
-        .setup-inputs input { width: 32px; height: 32px; text-align: center; font-weight: bold; font-size: 16px; border-radius: 4px; border: 1px solid #999; }
+        .setup-inputs input { width: 35px; height: 35px; text-align: center; font-weight: bold; font-size: 18px; border-radius: 4px; border: 1px solid #999; }
 
-        /* CLASES DE COLORES PARA LA CONSOLA */
+        /* COLORES CONSOLA */
         .log-green { color: #00e676; }
         .log-yellow { color: #ffea00; }
         .log-red { color: #ff1744; font-weight: bold; }
@@ -128,24 +136,24 @@
     </div>
 
     <div class="ai-panel">
-        <h3>CONFIGURACIÓN</h3>
         <div class="setup-box">
-            <label style="font-size: 12px; font-weight: bold;">Código Secreto:</label>
+            <label style="font-size: 11px; font-weight: bold;">CONFIGURAR CÓDIGO SECRETO</label>
             <div class="setup-inputs">
-                <input type="text" id="s-0" maxlength="1" placeholder="T">
-                <input type="text" id="s-1" maxlength="1" placeholder="U">
-                <input type="text" id="s-2" maxlength="1" placeholder="V">
-                <input type="text" id="s-3" maxlength="1" placeholder="W">
-                <input type="text" id="s-4" maxlength="1" placeholder="X">
-                <input type="text" id="s-5" maxlength="1" placeholder="Y">
+                <input type="number" id="s-0" placeholder="T">
+                <input type="number" id="s-1" placeholder="U">
+                <input type="number" id="s-2" placeholder="V">
+                <input type="number" id="s-3" placeholder="W">
+                <input type="number" id="s-4" placeholder="X">
+                <input type="number" id="s-5" placeholder="Y">
             </div>
-            <button onclick="setManualCode()" style="background: #ffc107;">Fijar Código</button>
-            <button onclick="setRandomCode()" style="background: #8bc34a;">Generar Aleatorio</button>
+            <div style="display:flex; gap:5px; margin-top:10px">
+                <button onclick="setManualCode()" style="background: #ffc107;">Fijar</button>
+                <button onclick="setRandomCode()" style="background: #8bc34a;">Azar</button>
+            </div>
         </div>
 
-        <h3>INTERROGAR IA</h3>
         <div class="q-box">
-            <label>1. Suma de Segmentos</label>
+            <label>1. SUMA SEGMENTOS (FILA/COL)</label>
             <select id="q1-v">
                 <optgroup label="Columnas">
                     <option value="A">Columna A</option><option value="B">Columna B</option><option value="C">Columna C</option>
@@ -159,26 +167,29 @@
                     <option value="S">Fila S</option>
                 </optgroup>
             </select>
-            <button onclick="askQ1()">Preguntar</button>
+            <button onclick="askQ1()">Interrogar</button>
         </div>
+
         <div class="q-box">
-            <label>2. Par/Imp o 3. Comparar</label>
+            <label>2. PAR/IMP O 3. COMPARAR</label>
             <div style="display:flex; gap:5px">
                 <select id="q2-1"><option value="0">T</option><option value="1">U</option><option value="2">V</option><option value="3">W</option><option value="4">X</option><option value="5">Y</option></select>
                 <select id="q2-2"><option value="">- Solo Par/Imp -</option><option value="0">T</option><option value="1">U</option><option value="2">V</option><option value="3">W</option><option value="4">X</option><option value="5">Y</option></select>
             </div>
-            <button onclick="askQ23()">Preguntar</button>
+            <button onclick="askQ23()">Interrogar</button>
         </div>
+
         <div class="q-box">
-            <label>4. Coordenada Exacta</label>
+            <label>4. COORDENADA EXACTA</label>
             <div style="display:flex; gap:5px">
                 <select id="q4-c"></select>
                 <select id="q4-r"></select>
             </div>
-            <button onclick="askQ4()">Preguntar</button>
+            <button onclick="askQ4()">Interrogar</button>
         </div>
-        <div id="log">Consola lista. Genera un código...</div>
-        <button onclick="reveal()" style="background:#546e7a; color:#fff; margin-top: 10px;">Ver Solución</button>
+
+        <div id="log">Genera un código para empezar...</div>
+        <button onclick="reveal()" style="background:#546e7a; color:#fff; margin-top: 10px;">Revelar Solución</button>
     </div>
 </div>
 
@@ -187,7 +198,7 @@
     const ady = {0:[1,3], 1:[0,2,4], 2:[1,5], 3:[0,4], 4:[1,3,5], 5:[2,4]};
     const names = ['T','U','V','W','X','Y'];
     let secret = null;
-    let logCount = 0; // Para alternar colores
+    let logCount = 0;
 
     function createRefBar() {
         const bar = document.getElementById('ref-bar');
@@ -197,9 +208,9 @@
                 <div class="ms m-h ${res[0]?'active-ref':''}" style="top:0"></div>
                 <div class="ms m-v ${res[5]?'active-ref':''}" style="top:2px;left:0"></div>
                 <div class="ms m-v ${res[1]?'active-ref':''}" style="top:2px;right:0"></div>
-                <div class="ms m-h ${res[6]?'active-ref':''}" style="top:16px"></div>
-                <div class="ms m-v ${res[4]?'active-ref':''}" style="top:18px;left:0"></div>
-                <div class="ms m-v ${res[2]?'active-ref':''}" style="top:18px;right:0"></div>
+                <div class="ms m-h ${res[6]?'active-ref':''}" style="top:13px"></div>
+                <div class="ms m-v ${res[4]?'active-ref':''}" style="top:15px;left:0"></div>
+                <div class="ms m-v ${res[2]?'active-ref':''}" style="top:15px;right:0"></div>
                 <div class="ms m-h ${res[3]?'active-ref':''}" style="bottom:0"></div>
             </div></div>`;
         }
@@ -210,80 +221,51 @@
         let html = '<div class="labels-side">';
         'JKLMN'.split('').forEach(l => html += `<div class="label-row">${l}<input></div>`);
         html += '</div>';
-        
         [0,1,2].forEach(i => {
             html += `<div class="digit-block">
                 <div class="abc-header">${[['A','B','C'],['D','E','F'],['G','H','I']][i].map(l=>`<div class="abc-item">${l}<input></div>`).join('')}</div>
                 <div class="digit-visual">${['s-a','s-b','s-c','s-d','s-e','s-f','s-g'].map(s=>`<div class="seg ${s=='s-a'||s=='s-g'||s=='s-d'?'seg-h':'seg-v'} ${s}" onclick="m(this)"></div>`).join('')}</div>
                 <div class="scratch-pad">${[0,1,2,3,4,5,6,7,8,9].map(n=>`<div class="num-pick" onclick="this.classList.toggle('scratched')">${n}</div>`).join('')}</div>
-                <input style="margin-top:10px; width:50px; text-align:center; font-weight:bold; font-size:16px" placeholder="${names[i]}">
+                <input style="margin-top:8px; width:40px; text-align:center; font-weight:bold" placeholder="${names[i]}">
             </div>`;
             if(i < 2) html += '<div class="comp" onclick="cyc(this)">?</div>';
         });
-
         html += '<div class="v-comps"><div class="comp" onclick="cyc(this)">?</div><div class="comp" onclick="cyc(this)">?</div><div class="comp" onclick="cyc(this)">?</div></div>';
         html += '<div class="labels-side">';
         'OPQRS'.split('').forEach(l => html += `<div class="label-row">${l}<input></div>`);
         html += '</div>';
-
         [3,4,5].forEach(i => {
             html += `<div class="digit-block">
                 <div class="digit-visual">${['s-a','s-b','s-c','s-d','s-e','s-f','s-g'].map(s=>`<div class="seg ${s=='s-a'||s=='s-g'||s=='s-d'?'seg-h':'seg-v'} ${s}" onclick="m(this)"></div>`).join('')}</div>
                 <div class="scratch-pad">${[0,1,2,3,4,5,6,7,8,9].map(n=>`<div class="num-pick" onclick="this.classList.toggle('scratched')">${n}</div>`).join('')}</div>
-                <input style="margin-top:10px; width:50px; text-align:center; font-weight:bold; font-size:16px" placeholder="${names[i]}">
+                <input style="margin-top:8px; width:40px; text-align:center; font-weight:bold" placeholder="${names[i]}">
             </div>`;
             if(i < 5) html += '<div class="comp" onclick="cyc(this)">?</div>';
         });
         grid.innerHTML = html;
-
         const q4c = document.getElementById('q4-c'); 'ABCDEFGHI'.split('').forEach(v => q4c.innerHTML += `<option value="${v}">${v}</option>`);
         const q4r = document.getElementById('q4-r'); 'JKLMNOPQRS'.split('').forEach(v => q4r.innerHTML += `<option value="${v}">${v}</option>`);
     }
 
-    // FUNCIÓN DE LOG PERSONALIZADA
     function log(msg, status = 'ok') {
         const l = document.getElementById('log');
-        let colorClass = '';
-        
-        if(status === 'error') {
-            colorClass = 'log-red';
-        } else {
-            // Alternar verde y amarillo
-            colorClass = logCount % 2 === 0 ? 'log-green' : 'log-yellow';
-            logCount++;
-        }
-        
+        let colorClass = status === 'error' ? 'log-red' : (logCount % 2 === 0 ? 'log-green' : 'log-yellow');
+        if(status !== 'error') logCount++;
         l.innerHTML = `<span class="${colorClass}">> ${msg}</span><br>${l.innerHTML}`;
     }
 
-    window.setManualCode = () => {
-        let temp = [];
-        for(let i=0; i<6; i++) {
-            let val = document.getElementById('s-'+i).value;
-            if(val === "" || isNaN(val)) { alert("Introduce números válidos."); return; }
-            temp.push(parseInt(val));
-        }
-        for(let i=0; i<6; i++) {
-            for(let n of ady[i]) {
-                if(temp[i] === temp[n]) { 
-                    log(`Error: ${names[i]} y ${names[n]} son iguales y adyacentes.`, 'error'); 
-                    return; 
-                }
-            }
-        }
-        secret = temp;
-        log("CÓDIGO MANUAL FIJADO.");
-    };
+    window.cyc = (el) => {
+        const s = ['?', '>', '<', '='];
+        let curIdx = s.indexOf(el.innerText);
+        let nextSymbol = s[(curIdx + 1) % s.length];
+        el.innerText = nextSymbol;
+        el.style.background = nextSymbol === '?' ? 'white' : '#fff59d';
 
-    window.setRandomCode = () => {
-        secret = [null,null,null,null,null,null];
-        for(let i=0; i<6; i++) {
-            let forbid = [];
-            ady[i].forEach(n => { if(secret[n]!==null) forbid.push(secret[n]); });
-            let poss = [0,1,2,3,4,5,6,7,8,9].filter(x => !forbid.includes(x));
-            secret[i] = poss[Math.floor(Math.random()*poss.length)];
+        // ROTACIÓN DE SEGMENTOS VERTICALES
+        if (el.parentElement.classList.contains('v-comps')) {
+            if (nextSymbol === '>' || nextSymbol === '<') el.classList.add('rotate-90');
+            else el.classList.remove('rotate-90');
         }
-        log("CÓDIGO ALEATORIO GENERADO.");
     };
 
     window.m = (el) => {
@@ -292,10 +274,27 @@
         else { el.classList.add('st-1'); }
     };
 
-    window.cyc = (el) => {
-        const s = ['?', '>', '<', '='];
-        el.innerText = s[(s.indexOf(el.innerText)+1)%4];
-        el.style.background = el.innerText === '?' ? 'white' : '#fff59d';
+    window.setManualCode = () => {
+        let temp = [];
+        for(let i=0; i<6; i++) {
+            let val = document.getElementById('s-'+i).value;
+            if(val === "" || isNaN(val)) { alert("Completa el código."); return; }
+            temp.push(parseInt(val));
+        }
+        for(let i=0; i<6; i++) {
+            for(let n of ady[i]) if(temp[i] === temp[n]) { log(`Error: ${names[i]} y ${names[n]} son adyacentes e iguales.`, 'error'); return; }
+        }
+        secret = temp; log("CÓDIGO MANUAL FIJADO.");
+    };
+
+    window.setRandomCode = () => {
+        secret = [null,null,null,null,null,null];
+        for(let i=0; i<6; i++) {
+            let forbid = []; ady[i].forEach(n => { if(secret[n]!==null) forbid.push(secret[n]); });
+            let poss = [0,1,2,3,4,5,6,7,8,9].filter(x => !forbid.includes(x));
+            secret[i] = poss[Math.floor(Math.random()*poss.length)];
+        }
+        log("CÓDIGO ALEATORIO GENERADO.");
     };
 
     window.askQ1 = () => {
@@ -313,11 +312,10 @@
         if(!secret) return alert("Fija un código.");
         const d1 = parseInt(document.getElementById('q2-1').value);
         const d2v = document.getElementById('q2-2').value;
-        if(d2v === "") {
-            log(`${names[d1]} es ${secret[d1]%2===0?'PAR':'IMPAR'}`);
-        } else {
+        if(d2v === "") log(`${names[d1]} es ${secret[d1]%2===0?'PAR':'IMPAR'}`);
+        else {
             const d2 = parseInt(d2v);
-            if(!ady[d1].includes(d2)) return log(`Error: ${names[d1]} y ${names[d2]} no son adyacentes.`, 'error');
+            if(!ady[d1].includes(d2)) return log(`Error: ${names[d1]} y ${names[d2]} no adyacentes.`, 'error');
             let res = secret[d1] > secret[d2] ? '>' : (secret[d1] < secret[d2] ? '<' : '=');
             log(`${names[d1]} ${res} ${names[d2]}`);
         }
