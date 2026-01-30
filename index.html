@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Digit Code Online</title>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+    
+    <style>
+        :root { --bg-sheet: #ffffff; --st-on: #222; --st-off: #f0f0f0; --st-cross: #ff4d4d; --accent-blue: #00d2ff; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #90a4ae; display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0; }
+        .mode-selector { background: #263238; color: white; padding: 10px 20px; border-radius: 8px; margin-bottom: 15px; font-size: 14px; }
+        .digit-reference { display: flex; gap: 15px; background: rgba(0,0,0,0.1); padding: 15px 25px; border-radius: 12px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.3); flex-wrap: wrap; justify-content: center;}
+        .ref-item { display: flex; flex-direction: column; align-items: center; opacity: 0.7; }
+        .ref-num { font-weight: bold; color: #000; margin-bottom: 5px; font-size: 14px; }
+        .mini-seg-grid { position: relative; width: 20px; height: 35px; }
+        .ms { position: absolute; background: #bbb; border-radius: 1px; }
+        .m-h { height: 3px; left: 4px; right: 4px; }
+        .m-v { width: 3px; height: 12px; }
+        .active-ref { background: #000 !important; }
+        .wrapper { display: flex; gap: 20px; max-width: 1350px; width: 100%; }
+        .wrapper.vertical { flex-direction: column; align-items: center; }
+        .wrapper.vertical .ai-panel { width: 100%; max-width: 600px; position: relative; top: 0; }
+        .sheet { background: var(--bg-sheet); padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); border-radius: 4px; flex-grow: 1; border: 1px solid #666; }
+        .header-title { text-align: center; font-weight: 900; font-size: 30px; margin-bottom: 20px; border-bottom: 4px solid #000; padding-bottom: 10px; }
+        .game-grid { display: grid; grid-template-columns: 80px 1fr 40px 1fr 40px 1fr; align-items: center; gap: 5px; }
+        .labels-side { display: flex; flex-direction: column; gap: 12px; border-right: 3px solid #000; padding-right: 10px; }
+        .label-row { display: flex; align-items: center; justify-content: flex-end; gap: 8px; height: 22px; font-weight: bold; }
+        .label-row input { width: 25px; height: 18px; text-align: center; border: 1px solid #ccc; }
+        .digit-block { display: flex; flex-direction: column; align-items: center; padding: 5px; }
+        .abc-header { display: flex; gap: 12px; margin-bottom: 5px; }
+        .abc-item { display: flex; flex-direction: column; align-items: center; font-size: 11px; font-weight: bold; }
+        .abc-item input { width: 20px; height: 16px; text-align: center; border: 1px solid #ccc; }
+        .digit-visual { position: relative; width: 60px; height: 100px; background: #fff; border: 1px solid #eee; }
+        .seg { position: absolute; background: var(--st-off); border: 1px solid #ddd; cursor: pointer; }
+        .seg-h { height: 10px; left: 12px; right: 12px; }
+        .seg-v { width: 10px; height: 35px; }
+        .s-a { top: 0; } .s-g { top: 45px; } .s-d { bottom: 0; }
+        .s-f { left: 0; top: 5px; } .s-b { right: 0; top: 5px; }
+        .s-e { left: 0; top: 60px; } .s-c { right: 0; top: 60px; }
+        .st-1 { background: var(--st-on) !important; border-color: #000; }
+        .st-2 { background: var(--st-cross) !important; opacity: 0.4; }
+        .comp { width: 32px; height: 32px; border: 2px solid #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; background: #fff; cursor: pointer; }
+        .rotate-90 { transform: rotate(90deg); display: inline-block; }
+        .v-comps { grid-column: 2 / 7; display: flex; justify-content: space-around; padding: 15px 0; }
+        .scratch-pad { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; margin-top: 10px; }
+        .num-pick { font-size: 11px; width: 18px; height: 18px; border: 1px solid #ddd; cursor: pointer; text-align: center; line-height: 18px; }
+        .num-pick.scratched { text-decoration: line-through; color: #ccc; background: #fafafa; }
+        .ai-panel { background: #263238; color: #fff; width: 340px; padding: 20px; border-radius: 12px; height: fit-content; position: sticky; top: 20px; }
+        .ai-panel h3 { color: var(--accent-blue); margin-top: 0; text-align: center; font-size: 18px; text-transform: uppercase; }
+        .q-box { background: #37474f; padding: 12px; margin-bottom: 10px; border-radius: 6px; border-left: 4px solid var(--accent-blue); }
+        .q-box label { font-size: 12px; font-weight: bold; display: block; margin-bottom: 8px; color: #cfd8dc; }
+        select, button { width: 100%; padding: 8px; border-radius: 4px; border: none; font-size: 13px; }
+        button { background: var(--accent-blue); color: #000; font-weight: bold; cursor: pointer; margin-top: 5px; }
+        #log { background: #000; color: #00e676; height: 250px; overflow-y: auto; padding: 10px; font-family: monospace; font-size: 12px; border: 2px solid #455a64; margin-top: 10px; }
+        .log-green { color: #00e676; }
+        .log-yellow { color: #ffea00; }
+        
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+        .login-box { background: #37474f; padding: 30px; border-radius: 15px; color: white; text-align: center; }
+        .turn-indicator { background: #ff5252; color: white; padding: 10px; width: 100%; text-align: center; font-weight: bold; margin-bottom: 10px; border-radius: 4px; }
+        .turn-active { background: #4caf50 !important; }
+    </style>
+</head>
+<body>
+
+<div id="login-screen" class="overlay">
+    <div class="login-box">
+        <h2>DIGIT CODE ONLINE</h2>
+        <input type="text" id="player-name" placeholder="Tu Nombre" style="margin-bottom:10px; padding:10px; width:200px"><br>
+        <input type="text" id="room-id" placeholder="Código de Sala" style="margin-bottom:20px; padding:10px; width:200px"><br>
+        <button onclick="joinRoom()" style="padding:10px 40px">ENTRAR</button>
+    </div>
+</div>
+
+<div id="turn-banner" class="turn-indicator">Esperando conexión...</div>
+
+<div class="mode-selector">
+    Diseño: 
+    <select onchange="document.getElementById('w').className = 'wrapper ' + this.value">
+        <option value="">Horizontal (Derecha)</option>
+        <option value="vertical">Vertical (Abajo)</option>
+    </select>
+</div>
+
+<div class="digit-reference" id="ref-bar"></div>
+
+<div class="wrapper" id="w">
+    <div class="sheet">
+        <div class="header-title">DIGIT CODE</div>
+        <div class="game-grid" id="main-grid"></div>
+    </div>
+
+    <div class="ai-panel">
+        <h3 id="players-list">CONECTANDO...</h3>
+        <div id="log">Introduce tu nombre para empezar.</div>
+        <div id="controls-block" style="pointer-events: none; opacity: 0.5;">
+            <h3>INTERROGAR IA</h3>
+            <div class="q-box">
+                <label>1. Suma de Segmentos</label>
+                <select id="q1-v"></select>
+                <button onclick="askQ1()">Preguntar</button>
+            </div>
+            <div class="q-box">
+                <label>2. Par/Imp o 3. Comparar</label>
+                <div style="display:flex; gap:5px">
+                    <select id="q2-1"><option value="0">T</option><option value="1">U</option><option value="2">V</option><option value="3">W</option><option value="4">X</option><option value="5">Y</option></select>
+                    <select id="q2-2"><option value="">- Solo Par -</option><option value="0">T</option><option value="1">U</option><option value="2">V</option><option value="3">W</option><option value="4">X</option><option value="5">Y</option></select>
+                </div>
+                <button onclick="askQ23()">Preguntar</button>
+            </div>
+            <div class="q-box">
+                <label>4. Coordenada Exacta</label>
+                <div style="display:flex; gap:5px">
+                    <select id="q4-c"></select>
+                    <select id="q4-r"></select>
+                </div>
+                <button onclick="askQ4()">Preguntar</button>
+            </div>
+            <button onclick="tryResolve()" style="background:#ff5252; color:white;">¡RESOLVER!</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- TUS CLAVES INTEGRADAS ---
+    const firebaseConfig = {
+        apiKey: "AIzaSyDWST4NKU_roqoGsMAAevs4zd-c4IqAOEU",
+        authDomain: "digitcode-d991e.firebaseapp.com",
+        databaseURL: "https://digitcode-d991e-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "digitcode-d991e",
+        storageBucket: "digitcode-d991e.firebasestorage.app",
+        messagingSenderId: "958984288633",
+        appId: "1:958984288633:web:c88980de5de0a5422597a8"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    const shapes = {0:[1,1,1,1,1,1,0],1:[0,1,1,0,0,0,0],2:[1,1,0,1,1,0,1],3:[1,1,1,1,0,0,1],4:[0,1,1,0,0,1,1],5:[1,0,1,1,0,1,1],6:[1,0,1,1,1,1,1],7:[1,1,1,0,0,0,0],8:[1,1,1,1,1,1,1],9:[1,1,1,1,0,1,1]};
+    const ady = {0:[1,3], 1:[0,2,4], 2:[1,5], 3:[0,4], 4:[1,3,5], 5:[2,4]};
+    const names = ['T','U','V','W','X','Y'];
+    let myName = "";
+    let roomId = "";
+    let gameState = null;
+
+    function joinRoom() {
+        myName = document.getElementById('player-name').value;
+        roomId = document.getElementById('room-id').value;
+        if(!myName || !roomId) return alert("Rellena los datos");
+        document.getElementById('login-screen').style.display = 'none';
+        
+        const roomRef = db.ref('rooms/' + roomId);
+        roomRef.once('value', snapshot => {
+            if(!snapshot.exists()) {
+                const newSecret = Array.from({length: 6}, () => Math.floor(Math.random() * 10));
+                roomRef.set({ secret: newSecret, turn: 0, players: [myName], logs: [{msg: "PARTIDA CREADA"}] });
+            } else {
+                let players = snapshot.val().players || [];
+                if(!players.includes(myName)) { players.push(myName); roomRef.update({ players: players }); }
+            }
+            db.ref('rooms/' + roomId).on('value', s => { gameState = s.val(); updateUI(); });
+        });
+    }
+
+    function updateUI() {
+        document.getElementById('players-list').innerText = "SALA: " + roomId;
+        const currentTurnPlayer = gameState.players[gameState.turn % gameState.players.length];
+        const isMyTurn = currentTurnPlayer === myName;
+        const banner = document.getElementById('turn-banner');
+        const controls = document.getElementById('controls-block');
+        
+        banner.innerText = isMyTurn ? "¡TU TURNO!" : "Turno de: " + currentTurnPlayer;
+        banner.className = isMyTurn ? "turn-indicator turn-active" : "turn-indicator";
+        controls.style.pointerEvents = isMyTurn ? "auto" : "none";
+        controls.style.opacity = isMyTurn ? "1" : "0.5";
+
+        document.getElementById('log').innerHTML = gameState.logs.map((l, i) => 
+            `<span class="${i%2==0?'log-green':'log-yellow'}">> ${l.msg}</span><br>`
+        ).reverse().join('');
+    }
+
+    function pushLog(msg) {
+        let logs = gameState.logs || [];
+        logs.push({msg: myName + ": " + msg});
+        db.ref('rooms/' + roomId).update({ logs: logs, turn: gameState.turn + 1 });
+    }
+
+    window.askQ1 = () => {
+        const v = document.getElementById('q1-v').value;
+        const colMap = {'A':[0,3,[5,4]],'B':[0,3,[0,6,3]],'C':[0,3,[1,2]],'D':[1,4,[5,4]],'E':[1,4,[0,6,3]],'F':[1,4,[1,2]],'G':[2,5,[5,4]],'H':[2,5,[0,6,3]],'I':[2,5,[1,2]]};
+        const rowMap = {'J':[[0,1,2],[0]],'K':[[0,1,2],[5,1]],'L':[[0,1,2],[6]],'M':[[0,1,2],[4,2]],'N':[[0,1,2],[3]],'O':[[3,4,5],[0]],'P':[[3,4,5],[5,1]],'Q':[[3,4,5],[6]],'R':[[3,4,5],[4,2]],'S':[[3,4,5],[3]]};
+        let c = 0;
+        if(colMap[v]) colMap[v].slice(0,2).forEach(d=>colMap[v][2].forEach(s=>{if(shapes[gameState.secret[d]][s])c++}));
+        else rowMap[v][0].forEach(d=>rowMap[v][1].forEach(s=>{if(shapes[gameState.secret[d]][s])c++}));
+        pushLog(`Suma en ${v} es ${c}`);
+    };
+
+    window.askQ23 = () => {
+        const d1 = parseInt(document.getElementById('q2-1').value);
+        const d2v = document.getElementById('q2-2').value;
+        if(d2v === "") {
+            pushLog(`${names[d1]} es ${gameState.secret[d1]%2===0?'PAR':'IMPAR'}`);
+        } else {
+            const d2 = parseInt(d2v);
+            if(!ady[d1].includes(d2)) return alert("No son adyacentes");
+            let res = gameState.secret[d1] > gameState.secret[d2] ? '>' : (gameState.secret[d1] < gameState.secret[d2] ? '<' : '=');
+            pushLog(`${names[d1]} ${res} ${names[d2]}`);
+        }
+    };
+
+    window.askQ4 = () => {
+        const c = document.getElementById('q4-c').value;
+        const r = document.getElementById('q4-r').value;
+        const cIdx = ['ABC','DEF','GHI'].findIndex(g => g.includes(c));
+        const dIdx = cIdx + ('OPQRS'.includes(r) ? 3 : 0);
+        const cT = ['ADG','BEH','CFI'].findIndex(g => g.includes(c));
+        const rT = ['JO','KP','LQ','MR','NS'].findIndex(g => g.includes(r));
+        const map = {"1-0":0,"2-1":1,"2-3":2,"1-4":3,"0-3":4,"0-1":5,"1-2":6};
+        const sIdx = map[`${cT}-${rT}`];
+        pushLog(`${c}-${r}: ${shapes[gameState.secret[dIdx]][sIdx]?'ENCENDIDO':'APAGADO'}`);
+    };
+
+    window.tryResolve = () => {
+        const guess = prompt("Dígitos (ej: 123456)");
+        if(!guess) return;
+        if(guess === gameState.secret.join('')) {
+            pushLog(`¡¡ACERTÓ EL CÓDIGO!! GANADOR: ${myName}`);
+            alert("¡VICTORIA!");
+        } else {
+            pushLog(`Falló con ${guess}.`);
+            alert("Incorrecto.");
+        }
+    };
+
+    function initVisuals() {
+        const bar = document.getElementById('ref-bar');
+        for(let i=0; i<=9; i++) {
+            let res = shapes[i];
+            bar.innerHTML += `<div class="ref-item"><div class="ref-num">${i}</div><div class="mini-seg-grid">
+                <div class="ms m-h ${res[0]?'active-ref':''}" style="top:0"></div>
+                <div class="ms m-v ${res[5]?'active-ref':''}" style="top:2px;left:0"></div>
+                <div class="ms m-v ${res[1]?'active-ref':''}" style="top:2px;right:0"></div>
+                <div class="ms m-h ${res[6]?'active-ref':''}" style="top:16px"></div>
+                <div class="ms m-v ${res[4]?'active-ref':''}" style="top:18px;left:0"></div>
+                <div class="ms m-v ${res[2]?'active-ref':''}" style="top:18px;right:0"></div>
+                <div class="ms m-h ${res[3]?'active-ref':''}" style="bottom:0"></div>
+            </div></div>`;
+        }
+        const grid = document.getElementById('main-grid');
+        let html = '<div class="labels-side">';
+        'JKLMN'.split('').forEach(l => html += `<div class="label-row">${l}<input></div>`);
+        html += '</div>';
+        [0,1,2].forEach(i => {
+            html += `<div class="digit-block">
+                <div class="abc-header">${[['A','B','C'],['D','E','F'],['G','H','I']][i].map(l=>`<div class="abc-item">${l}<input></div>`).join('')}</div>
+                <div class="digit-visual">${['s-a','s-b','s-c','s-d','s-e','s-f','s-g'].map(s=>`<div class="seg ${s=='s-a'||s=='s-g'||s=='s-d'?'seg-h':'seg-v'} ${s}" onclick="m(this)"></div>`).join('')}</div>
+                <div class="scratch-pad">${[0,1,2,3,4,5,6,7,8,9].map(n=>`<div class="num-pick" onclick="this.classList.toggle('scratched')">${n}</div>`).join('')}</div>
+                <input style="margin-top:10px; width:50px; text-align:center; font-weight:bold" placeholder="${names[i]}">
+            </div>`;
+            if(i < 2) html += '<div class="comp" onclick="cyc(this)">?</div>';
+        });
+        html += '<div class="v-comps"><div class="comp" onclick="cyc(this)">?</div><div class="comp" onclick="cyc(this)">?</div><div class="comp" onclick="cyc(this)">?</div></div>';
+        html += '<div class="labels-side">';
+        'OPQRS'.split('').forEach(l => html += `<div class="label-row">${l}<input></div>`);
+        html += '</div>';
+        [3,4,5].forEach(i => {
+            html += `<div class="digit-block">
+                <div class="digit-visual">${['s-a','s-b','s-c','s-d','s-e','s-f','s-g'].map(s=>`<div class="seg ${s=='s-a'||s=='s-g'||s=='s-d'?'seg-h':'seg-v'} ${s}" onclick="m(this)"></div>`).join('')}</div>
+                <div class="scratch-pad">${[0,1,2,3,4,5,6,7,8,9].map(n=>`<div class="num-pick" onclick="this.classList.toggle('scratched')">${n}</div>`).join('')}</div>
+                <input style="margin-top:10px; width:50px; text-align:center; font-weight:bold" placeholder="${names[i]}">
+            </div>`;
+            if(i < 5) html += '<div class="comp" onclick="cyc(this)">?</div>';
+        });
+        grid.innerHTML = html;
+        document.getElementById('q4-c').innerHTML = 'ABCDEFGHI'.split('').map(v => `<option value="${v}">${v}</option>`).join('');
+        document.getElementById('q4-r').innerHTML = 'JKLMNOPQRS'.split('').map(v => `<option value="${v}">${v}</option>`).join('');
+        document.getElementById('q1-v').innerHTML = 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S'.split(',').map(v=>`<option value="${v}">${v}</option>`).join('');
+    }
+
+    window.m = (el) => { if(el.classList.contains('st-1')) { el.classList.remove('st-1'); el.classList.add('st-2'); } else if(el.classList.contains('st-2')) { el.classList.remove('st-2'); } else { el.classList.add('st-1'); } };
+    window.cyc = (el) => { const s = ['?', '>', '<', '=']; let nextIdx = (s.indexOf(el.innerText)+1)%4; let symbol = s[nextIdx]; el.innerText = symbol; el.style.background = symbol === '?' ? 'white' : '#fff59d'; if(el.parentElement.classList.contains('v-comps')) { if(symbol !== '?') el.classList.add('rotate-90'); else el.classList.remove('rotate-90'); } };
+
+    initVisuals();
+</script>
+</body>
+</html>
