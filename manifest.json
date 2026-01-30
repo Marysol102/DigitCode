@@ -1,0 +1,16 @@
+{
+  "name": "Digit Code Master",
+  "short_name": "DigitCode",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#263238",
+  "theme_color": "#00d2ff",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/564/564415.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
