@@ -572,6 +572,73 @@
         .streak-cel-day-lbl { font-family:'Orbitron',sans-serif; font-size:9px; color:var(--text-muted); letter-spacing:1px; }
         .streak-cel-btn { background:linear-gradient(135deg,#ff6b00,#ff9500); border:none; color:#000; font-family:'Orbitron',sans-serif; font-size:12px; font-weight:700; letter-spacing:2px; padding:14px 40px; border-radius:12px; cursor:pointer; box-shadow:0 0 20px rgba(255,107,0,.4); transition:all .2s; animation:celFadeUp .5s .8s both; opacity:0; }
         .streak-cel-btn:hover { filter:brightness(1.15); transform:translateY(-2px); }
+
+        /* --- LOGROS --- */
+        #achievements-modal { display:none; position:fixed; inset:0; background:rgba(15,23,42,0.97); backdrop-filter:blur(10px); z-index:2000; align-items:center; justify-content:center; padding:20px; }
+        .ach-screen { background:rgba(15,23,42,0.99); border:1px solid var(--glass-border); border-radius:24px; width:100%; max-width:580px; overflow:hidden; box-shadow:0 25px 60px rgba(0,0,0,0.6); max-height:90vh; display:flex; flex-direction:column; }
+        .ach-header { background:linear-gradient(135deg,rgba(56,189,248,0.08),rgba(192,132,252,0.08)); border-bottom:1px solid var(--glass-border); padding:20px 28px; display:flex; align-items:center; justify-content:space-between; flex-shrink:0; }
+        .ach-title-txt { font-family:'Orbitron',sans-serif; font-size:14px; letter-spacing:3px; color:var(--neon-blue); }
+        .ach-summary { font-family:'Orbitron',sans-serif; font-size:11px; color:var(--text-muted); }
+        .ach-summary span { color:var(--neon-blue); }
+        .ach-global-bar { height:3px; background:rgba(255,255,255,0.05); flex-shrink:0; }
+        .ach-global-fill { height:100%; background:linear-gradient(90deg,var(--neon-blue),var(--neon-purple)); box-shadow:0 0 8px var(--neon-blue); transition:width 1s ease; }
+        .ach-tabs { display:flex; border-bottom:1px solid var(--glass-border); padding:0 20px; gap:2px; flex-shrink:0; overflow-x:auto; }
+        .ach-tab { font-family:'Orbitron',sans-serif; font-size:10px; letter-spacing:1px; padding:12px 12px; border:none; background:transparent; color:var(--text-muted); cursor:pointer; border-bottom:2px solid transparent; transition:all .2s; white-space:nowrap; }
+        .ach-tab:hover { color:var(--text-main); }
+        .ach-tab.active { color:var(--neon-blue); border-bottom-color:var(--neon-blue); }
+        .ach-grid { display:flex; flex-direction:column; gap:7px; padding:18px 24px; overflow-y:auto; }
+        .ach-grid::-webkit-scrollbar { width:4px; }
+        .ach-grid::-webkit-scrollbar-thumb { background:#334155; border-radius:2px; }
+        .ach-item { display:flex; align-items:center; gap:13px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:11px 15px; transition:all .2s; position:relative; overflow:hidden; }
+        .ach-item:hover { background:rgba(255,255,255,0.04); }
+        .ach-item.ach-locked { opacity:.4; filter:grayscale(.5); }
+        .ach-item.ach-unlocked::before { content:''; position:absolute; left:0; top:0; bottom:0; width:2px; border-radius:12px 0 0 12px; }
+        .ach-item.ach-unlocked.cat-streak::before { background:#ff9500; }
+        .ach-item.ach-unlocked.cat-perf::before   { background:var(--neon-orange); }
+        .ach-item.ach-unlocked.cat-style::before  { background:var(--neon-purple); }
+        .ach-item.ach-unlocked.cat-multi::before  { background:var(--neon-green); }
+        .ach-icon { font-size:28px; flex-shrink:0; }
+        .ach-info { flex:1; min-width:0; }
+        .ach-name { font-family:'Orbitron',sans-serif; font-size:11px; font-weight:700; margin-bottom:2px; }
+        .ach-item.ach-unlocked.cat-streak .ach-name { color:#ff9500; }
+        .ach-item.ach-unlocked.cat-perf   .ach-name { color:var(--neon-orange); }
+        .ach-item.ach-unlocked.cat-style  .ach-name { color:var(--neon-purple); }
+        .ach-item.ach-unlocked.cat-multi  .ach-name { color:var(--neon-green); }
+        .ach-item.ach-locked .ach-name { color:var(--text-muted); }
+        .ach-desc { font-size:11px; color:var(--text-muted); }
+        .ach-date { font-family:'Orbitron',sans-serif; font-size:9px; color:var(--text-muted); margin-top:3px; }
+        .ach-prog-bar { height:3px; background:rgba(255,255,255,0.05); border-radius:2px; overflow:hidden; margin:4px 0 2px; }
+        .ach-prog-fill { height:100%; border-radius:2px; }
+        .ach-prog-label { font-size:9px; color:var(--text-muted); font-family:'Orbitron',sans-serif; }
+        .ach-check { width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; flex-shrink:0; }
+        .ach-item.ach-unlocked .ach-check { background:rgba(74,222,128,0.15); border:1px solid var(--neon-green); color:var(--neon-green); }
+        .ach-item.ach-locked   .ach-check { background:rgba(255,255,255,0.03); border:1px solid #334155; color:#334155; }
+        .ach-close-btn { margin:16px 24px; padding:12px; border-radius:10px; border:1px solid #475569; background:transparent; color:var(--text-muted); font-family:'Orbitron',sans-serif; font-size:11px; letter-spacing:1px; cursor:pointer; transition:all .2s; flex-shrink:0; }
+        .ach-close-btn:hover { border-color:var(--neon-blue); color:var(--neon-blue); }
+
+        /* Toast logro */
+        #ach-toast-container { position:fixed; top:20px; right:20px; z-index:3500; display:flex; flex-direction:column; gap:10px; pointer-events:none; }
+        .ach-toast { display:flex; align-items:center; gap:12px; background:rgba(15,23,42,0.97); border:1px solid rgba(255,255,255,0.1); border-radius:14px; padding:12px 18px; min-width:280px; box-shadow:0 8px 32px rgba(0,0,0,0.5); position:relative; overflow:hidden; pointer-events:all; animation:achToastIn .5s cubic-bezier(.34,1.56,.64,1) both; }
+        @keyframes achToastIn { from{transform:translateX(60px) scale(.9);opacity:0} to{transform:translateX(0) scale(1);opacity:1} }
+        .ach-toast.hiding { animation:achToastOut .4s ease forwards; }
+        @keyframes achToastOut { to{transform:translateX(60px);opacity:0} }
+        .ach-toast::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; border-radius:14px 0 0 14px; }
+        .ach-toast.cat-streak::before { background:#ff9500; box-shadow:0 0 8px #ff9500; }
+        .ach-toast.cat-perf::before   { background:var(--neon-orange); box-shadow:0 0 8px var(--neon-orange); }
+        .ach-toast.cat-style::before  { background:var(--neon-purple); box-shadow:0 0 8px var(--neon-purple); }
+        .ach-toast.cat-multi::before  { background:var(--neon-green);  box-shadow:0 0 8px var(--neon-green); }
+        .ach-toast::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.04),transparent); animation:achShimmer 2s ease-in-out infinite; }
+        @keyframes achShimmer { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
+        .ach-toast-icon { font-size:32px; flex-shrink:0; animation:achIconPop .6s .1s cubic-bezier(.34,1.56,.64,1) both; transform:scale(0); }
+        @keyframes achIconPop { to{transform:scale(1)} }
+        .ach-toast-body { flex:1; }
+        .ach-toast-label { font-family:'Orbitron',sans-serif; font-size:9px; letter-spacing:2px; color:var(--text-muted); margin-bottom:2px; }
+        .ach-toast-name { font-family:'Orbitron',sans-serif; font-size:12px; font-weight:700; margin-bottom:1px; }
+        .ach-toast.cat-streak .ach-toast-name { color:#ff9500; }
+        .ach-toast.cat-perf   .ach-toast-name { color:var(--neon-orange); }
+        .ach-toast.cat-style  .ach-toast-name { color:var(--neon-purple); }
+        .ach-toast.cat-multi  .ach-toast-name { color:var(--neon-green); }
+        .ach-toast-desc { font-size:11px; color:var(--text-muted); }
     </style>
 </head>
 <body>
@@ -626,11 +693,37 @@
             <div class="streak-week-mini" id="streak-week-mini"></div>
             <span class="streak-mini-record" id="streak-mini-record"></span>
         </div>
-        <button onclick="openTutorial()" style="background:transparent; border:1px solid #475569; color:var(--text-muted); margin-top:10px;">📖 TUTORIAL</button>
+        <div style="display:flex; gap:8px; margin-top:10px;">
+            <button onclick="openTutorial()" style="flex:1; background:transparent; border:1px solid #475569; color:var(--text-muted);">📖 TUTORIAL</button>
+            <button onclick="openAchievements()" style="flex:1; background:transparent; border:1px solid #475569; color:var(--text-muted);">🏅 LOGROS</button>
+        </div>
     </div>
 </div>
 
 
+
+<!-- TOAST LOGROS -->
+<div id="ach-toast-container"></div>
+
+<!-- MODAL LOGROS -->
+<div id="achievements-modal">
+    <div class="ach-screen">
+        <div class="ach-header">
+            <div class="ach-title-txt">🏅 LOGROS</div>
+            <div class="ach-summary"><span id="ach-unlocked-count">0</span> / 16 desbloqueados</div>
+        </div>
+        <div class="ach-global-bar"><div class="ach-global-fill" id="ach-global-fill" style="width:0%"></div></div>
+        <div class="ach-tabs">
+            <button class="ach-tab active" onclick="achSetTab('all',this)">TODOS</button>
+            <button class="ach-tab" onclick="achSetTab('streak',this)">🔥 RACHA</button>
+            <button class="ach-tab" onclick="achSetTab('perf',this)">🎖️ REND.</button>
+            <button class="ach-tab" onclick="achSetTab('style',this)">🎯 ESTILO</button>
+            <button class="ach-tab" onclick="achSetTab('multi',this)">👥 MULTI</button>
+        </div>
+        <div class="ach-grid" id="ach-grid"></div>
+        <button class="ach-close-btn" onclick="closeAchievements()">← CERRAR</button>
+    </div>
+</div>
 <!-- MODAL TUTORIAL -->
 <div id="tutorial-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15,23,42,0.97); backdrop-filter:blur(10px); z-index:2000; align-items:center; justify-content:center; padding:20px;">
     <div style="background:rgba(15,23,42,0.99); border:1px solid var(--glass-border); border-radius:24px; width:100%; max-width:620px; box-shadow:0 25px 60px rgba(0,0,0,0.6); overflow:hidden; position:relative; max-height:90vh; overflow-y:auto;">
@@ -930,6 +1023,9 @@
     let undoStack = [];
     let redoStack = [];
     let usedQuestions = new Set();
+    let soloLogEntries = []; // [{msg, color, isSystem, turn}]
+    let usedQ4Types = false;    // si el jugador usó Q4
+    let usedNonQ1 = false;      // si usó algo que no sea Q1
 
     function captureState() {
         return {
@@ -1029,7 +1125,7 @@
         document.getElementById('solo-panel').style.display = 'block';
         document.getElementById('solo-controls').style.display = 'block';
         setQuestionsState(false);
-        loadSoloStats(); checkDailyStatus(); loadStreak();
+        loadSoloStats(); checkDailyStatus(); loadStreak(); loadAchievements();
     }
 
     function autoFillFromLog() {
@@ -1190,7 +1286,7 @@
     function startSolitaire(type) {
         if(type === 'daily') { if(document.getElementById('btn-solo-daily').classList.contains('btn-disabled')) return; }
         soloType = type; soloQCount = 0; soloAttempts = 0; hintsUsedCount = 0;
-        usedQuestions = new Set();
+        usedQuestions = new Set(); soloLogEntries = []; usedQ4Types = false; usedNonQ1 = false;
         document.getElementById('rank-table-container').style.display = 'none';
         document.getElementById('q-counter').innerText = "0";
         const cw = document.getElementById('q-counter').closest('.question-counter');
@@ -1212,7 +1308,8 @@
         currentStepIndex = 0;
         if(type === 'daily') {
             const dateStr = new Date().toLocaleDateString('es-ES', { timeZone: 'Europe/Madrid' }).replace(/\//g, '');
-            secret = generateDailyCode(dateStr); activateSoloGame();
+            secret = generateDailyCode(dateStr);
+            restoreDailySession(dateStr);
             setTimeout(() => { computeDailyOptimalPlan(); }, 50);
         } else { secret = generateRandomCode(); activateSoloGame(); }
     }
@@ -1231,6 +1328,11 @@
         let html = `<div><span style="color:var(--neon-orange); font-weight:bold; margin-right:6px;">[${turnNum}]</span>${msg}</div>`;
         lBox.innerHTML = html + lBox.innerHTML;
         applyLogToSheet(msg);
+        // Persistir sesión diaria
+        if(soloType === 'daily') {
+            soloLogEntries.unshift({ msg, color, isSystem, turn: turnNum });
+            persistDailySession();
+        }
     }
 
     function generateRandomCode() {
@@ -1465,6 +1567,7 @@
         if(winnerLog) {
             localVictoryShown = true;
             const participants = (gameState.players || []).join(', ');
+            checkAchievements({ isMulti:true, isFirstInRoom: winnerLog.p === myName, wins:1, rankKey:'', soloQCount:0, soloAttempts:0, hintsUsedCount:0, usedQ4:false, usedOnlyQ1:false, isOptimal:false });
             lastVictoryMsg = `¡FINAL DE PARTIDA! 🏆 ${winnerLog.m} en la Sala: ${roomId}. Participantes: ${participants}. 🧠✨ <a href="https://bit.ly/MλryS0l" target="_blank" style="color:var(--neon-green);text-decoration:none;">https://bit.ly/MλryS0l</a>`;
             document.getElementById('win-title').innerText = "¡PARTIDA FINALIZADA!";
             document.getElementById('win-text').innerHTML = lastVictoryMsg;
@@ -1518,6 +1621,18 @@
                     document.getElementById('daily-ranking').style.display = 'none';
                     document.getElementById('win-modal').style.display = 'flex';
                 }
+                // Contar victorias totales para logros
+                db.ref('users/' + myName + '/stats').once('value', sStats => {
+                    const stats = sStats.val() || {};
+                    const totalWins = (stats.total || 0) - (stats.loss || 0);
+                    const isOptimal = dailyOptimalData && soloQCount === dailyOptimalData.steps.length;
+                    checkAchievements({
+                        rankKey, soloQCount, soloAttempts, hintsUsedCount,
+                        usedQ4: usedQ4Types, usedOnlyQ1: !usedNonQ1,
+                        isMulti: false, isFirstInRoom: false,
+                        isOptimal, wins: totalWins + 1
+                    });
+                });
                 saveSoloResult(rankKey);
                 if(soloType === 'daily') {
                     saveStreak(() => {
@@ -1590,7 +1705,7 @@
             current = current || { total: 0, master: 0, crypto: 0, analyst: 0, apprentice: 0, novice: 0, loss: 0 };
             current.total++; if(current[rank] !== undefined) current[rank]++; return current;
         }, (err, committed, s) => { if(committed) { loadSoloStats(); checkDailyStatus(); } });
-        if(soloType === 'daily') { const dateStr = new Date().toLocaleDateString('es-ES', { timeZone: 'Europe/Madrid' }).replace(/\//g, ''); userRef.child('daily/' + dateStr).set(true); }
+        if(soloType === 'daily') { const dateStr = new Date().toLocaleDateString('es-ES', { timeZone: 'Europe/Madrid' }).replace(/\//g, ''); userRef.child('daily/' + dateStr).set(true); clearDailySession(dateStr); }
         document.getElementById('solo-controls').style.display = 'block';
     }
 
@@ -1765,6 +1880,75 @@
     })();
 
 
+
+    // --- PERSISTENCIA SESIÓN DIARIA ---
+    function persistDailySession() {
+        if(!myName || soloType !== 'daily') return;
+        const dateStr = new Date().toLocaleDateString('es-ES', { timeZone: 'Europe/Madrid' }).replace(/\//g, '');
+        db.ref('users/' + myName + '/daily_session/' + dateStr).set({
+            turns:    soloQCount,
+            attempts: soloAttempts,
+            hints:    hintsUsedCount,
+            log:      soloLogEntries,
+            ts:       Date.now()
+        });
+    }
+
+    function restoreDailySession(dateStr) {
+        db.ref('users/' + myName + '/daily_session/' + dateStr).once('value', snap => {
+            if(!snap.exists()) { activateSoloGame(); return; }
+            const data = snap.val();
+            // Restaurar contadores
+            soloQCount    = data.turns    || 0;
+            soloAttempts  = data.attempts || 0;
+            hintsUsedCount= data.hints    || 0;
+            soloLogEntries= data.log      || [];
+            // Restaurar contador visual
+            const qCounterEl = document.getElementById('q-counter');
+            qCounterEl.innerText = soloQCount;
+            const cw = qCounterEl.closest('.question-counter');
+            if(cw) {
+                cw.classList.remove('turn-safe','turn-warn','turn-danger');
+                cw.classList.add(soloQCount < 10 ? 'turn-safe' : soloQCount < 20 ? 'turn-warn' : 'turn-danger');
+            }
+            // Restaurar intentos visuales
+            if(soloAttempts >= 1) document.getElementById('btn-resolve').innerHTML = "RESOLVER CÓDIGO ❤️🖤";
+            // Restaurar usedQuestions desde el log
+            soloLogEntries.forEach(entry => {
+                if(!entry.isSystem) {
+                    // Extraer clave de pregunta del mensaje para evitar duplicados
+                    const m = entry.msg;
+                    if(m.startsWith('Suma en '))    { const v = m.split('Suma en ')[1].split(':')[0].trim(); usedQuestions.add('Q1-' + v); }
+                    else if(m.includes(' es PAR') || m.includes(' es IMPAR')) { const v = m.split(' es ')[0].trim(); usedQuestions.add('Q2-' + v); }
+                    else if(m.includes(' > ') || m.includes(' < ') || m.includes(' = ')) {
+                        const parts = m.match(/([TUVWXY]) [><= ]+ ([TUVWXY])/);
+                        if(parts) usedQuestions.add('Q3-' + parts[1] + '-' + parts[2]);
+                    }
+                    else if(m.startsWith('Seg '))   { const parts = m.split(' '); if(parts[1]) usedQuestions.add('Q4-' + parts[1]); }
+                }
+            });
+            // Restaurar log visual (ya están en orden más reciente primero)
+            const lBox = document.getElementById('log');
+            lBox.innerHTML = '';
+            soloLogEntries.forEach(entry => {
+                const html = `<div><span style="color:var(--neon-orange); font-weight:bold; margin-right:6px;">[${entry.turn}]</span>${entry.msg}</div>`;
+                lBox.innerHTML = lBox.innerHTML + html;
+            });
+            // Aplicar log al tablero (auto-fill)
+            soloLogEntries.slice().reverse().forEach(entry => {
+                if(!entry.isSystem) applyLogToSheet(entry.msg);
+            });
+            activateSoloGame();
+            logSolo('↩️ Sesión restaurada — continuando donde lo dejaste', 'var(--neon-purple)', true);
+        });
+    }
+
+    function clearDailySession(dateStr) {
+        if(!myName) return;
+        db.ref('users/' + myName + '/daily_session/' + dateStr).remove();
+        soloLogEntries = [];
+    }
+
     // --- RACHAS ---
     let streakCount = 0;
     let streakMax   = 0;
@@ -1810,7 +1994,9 @@
             // Comprobar continuidad
             const yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1);
             const yd = yesterday.toLocaleDateString('es-ES', { timeZone: 'Europe/Madrid' }).replace(/\//g, '');
+            const wasBig = data.current >= 7;
             const newCurrent = days.includes(yd) ? data.current + 1 : 1;
+            if(newCurrent === 1 && wasBig) unlockAchievement('streakRip');
             const newMax     = Math.max(data.max || 0, newCurrent);
             days.push(today);
             // Guardar solo últimos 30 días para no crecer indefinidamente
@@ -1892,6 +2078,168 @@
             gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.85);
             osc2.start(ctx.currentTime + 0.55); osc2.stop(ctx.currentTime + 0.9);
         } catch(e) {}
+    }
+
+
+    // --- LOGROS ---
+    const ACHIEVEMENTS_DEF = [
+        // RACHA
+        { id:'streak3',    cat:'streak', icon:'🔥', name:'Primera Llama',      desc:'Consigue una racha de 3 días' },
+        { id:'streak7',    cat:'streak', icon:'🔥', name:'Semana de Fuego',    desc:'Consigue una racha de 7 días' },
+        { id:'streak30',   cat:'streak', icon:'🌋', name:'Infernal',            desc:'Consigue una racha de 30 días', progress:'streak', max:30 },
+        { id:'streakRip',  cat:'streak', icon:'💀', name:'Caída Épica',        desc:'Rompe una racha de más de 7 días' },
+        // RENDIMIENTO
+        { id:'win1',       cat:'perf',   icon:'🧠', name:'Primer Descifrado',  desc:'Completa tu primera victoria' },
+        { id:'master1',    cat:'perf',   icon:'🎖️', name:'Master Hacker',     desc:'Gana con rango Master Hacker' },
+        { id:'win10',      cat:'perf',   icon:'🏆', name:'Veterano',            desc:'Consigue 10 victorias', progress:'wins', max:10 },
+        { id:'win25',      cat:'perf',   icon:'💎', name:'Élite',               desc:'Consigue 25 victorias', progress:'wins', max:25 },
+        { id:'nohints',    cat:'perf',   icon:'👻', name:'Sin Red',             desc:'Gana el diario sin usar ninguna pista' },
+        { id:'optimal',    cat:'perf',   icon:'⚡', name:'Perfección Pura',    desc:'Resuelve en el mínimo teórico exacto' },
+        // ESTILO
+        { id:'noQ4',       cat:'style',  icon:'🔇', name:'Sin Microscopio',    desc:'Gana sin usar ninguna pregunta Q4' },
+        { id:'onlyQ1',     cat:'style',  icon:'📊', name:'El Sumador',          desc:'Gana usando solo preguntas Q1' },
+        { id:'lastlife',   cat:'style',  icon:'❤️', name:'Al Límite',          desc:'Gana con solo 1 intento restante' },
+        { id:'speed15',    cat:'style',  icon:'🚀', name:'Rayo',                desc:'Gana el diario en menos de 15 turnos' },
+        // MULTI
+        { id:'multi1',     cat:'multi',  icon:'👥', name:'Social',              desc:'Completa tu primera partida multijugador' },
+        { id:'multifirst', cat:'multi',  icon:'🥇', name:'Primero en Sala',    desc:'Sé el primero en resolver en una sala' },
+    ];
+
+    let achUnlocked = {}; // { id: dateStr }
+    let achCurrentTab = 'all';
+
+    function loadAchievements(cb) {
+        if(!myName) { if(cb) cb(); return; }
+        db.ref('users/' + myName + '/achievements').once('value', s => {
+            achUnlocked = s.val() || {};
+            if(cb) cb();
+        });
+    }
+
+    function openAchievements() {
+        const name = document.getElementById('p-name').value.trim().toUpperCase();
+        if(!name) return alert("Introduce tu nombre primero");
+        myName = name;
+        loadAchievements(() => {
+            achCurrentTab = 'all';
+            document.querySelectorAll('.ach-tab').forEach((t,i) => t.classList.toggle('active', i===0));
+            renderAchGrid('all');
+            document.getElementById('achievements-modal').style.display = 'flex';
+        });
+    }
+
+    function closeAchievements() {
+        document.getElementById('achievements-modal').style.display = 'none';
+    }
+
+    function achSetTab(tab, el) {
+        achCurrentTab = tab;
+        document.querySelectorAll('.ach-tab').forEach(t => t.classList.remove('active'));
+        el.classList.add('active');
+        renderAchGrid(tab);
+    }
+
+    function renderAchGrid(tab) {
+        const total = ACHIEVEMENTS_DEF.length;
+        const unlocked = Object.keys(achUnlocked).length;
+        document.getElementById('ach-unlocked-count').innerText = unlocked;
+        document.getElementById('ach-global-fill').style.width = Math.round(unlocked/total*100) + '%';
+
+        const list = tab === 'all' ? ACHIEVEMENTS_DEF : ACHIEVEMENTS_DEF.filter(a => a.cat === tab);
+        const sorted = [...list.filter(a => achUnlocked[a.id]), ...list.filter(a => !achUnlocked[a.id])];
+
+        const grid = document.getElementById('ach-grid');
+        grid.innerHTML = sorted.map(a => {
+            const isUnlocked = !!achUnlocked[a.id];
+            const dateHtml = isUnlocked ? `<div class="ach-date">🗓 ${achUnlocked[a.id]}</div>` : '';
+            let progHtml = '';
+            if(!isUnlocked && a.progress) {
+                let cur = 0;
+                if(a.progress === 'streak') cur = streakCount || 0;
+                if(a.progress === 'wins')   cur = parseInt(document.getElementById('bar-master') ? 0 : 0); // se actualiza con loadAchProgress
+                progHtml = `<div class="ach-prog-bar"><div class="ach-prog-fill" style="width:${Math.min(100,Math.round(cur/a.max*100))}%; background:${a.cat==='streak'?'#ff9500':'var(--neon-orange)'};"></div></div><div class="ach-prog-label">${cur} / ${a.max}</div>`;
+            }
+            return `<div class="ach-item ${isUnlocked?'ach-unlocked':'ach-locked'} cat-${a.cat}">
+                <div class="ach-icon">${a.icon}</div>
+                <div class="ach-info">
+                    <div class="ach-name">${a.name}</div>
+                    <div class="ach-desc">${a.desc}</div>
+                    ${progHtml}${dateHtml}
+                </div>
+                <div class="ach-check">${isUnlocked?'✓':'🔒'}</div>
+            </div>`;
+        }).join('');
+    }
+
+    function unlockAchievement(id) {
+        if(!myName || achUnlocked[id]) return; // ya desbloqueado
+        const def = ACHIEVEMENTS_DEF.find(a => a.id === id);
+        if(!def) return;
+        const dateStr = new Date().toLocaleDateString('es-ES', { timeZone:'Europe/Madrid' });
+        achUnlocked[id] = dateStr;
+        db.ref('users/' + myName + '/achievements/' + id).set(dateStr);
+        showAchToast(def);
+    }
+
+    function showAchToast(def) {
+        const container = document.getElementById('ach-toast-container');
+        const toast = document.createElement('div');
+        toast.className = `ach-toast cat-${def.cat}`;
+        toast.innerHTML = `
+            <div class="ach-toast-icon">${def.icon}</div>
+            <div class="ach-toast-body">
+                <div class="ach-toast-label">🏅 LOGRO DESBLOQUEADO</div>
+                <div class="ach-toast-name">${def.name}</div>
+                <div class="ach-toast-desc">${def.desc}</div>
+            </div>`;
+        container.appendChild(toast);
+        playAchSound();
+        setTimeout(() => {
+            toast.classList.add('hiding');
+            setTimeout(() => toast.remove(), 400);
+        }, 4500);
+    }
+
+    function playAchSound() {
+        try {
+            const ctx = new (window.AudioContext||window.webkitAudioContext)();
+            [[880,.05],[1108,.12],[1318,.22],[1760,.36]].forEach(([f,t]) => {
+                const o=ctx.createOscillator(), g=ctx.createGain();
+                o.connect(g); g.connect(ctx.destination); o.type='sine'; o.frequency.value=f;
+                g.gain.setValueAtTime(0,ctx.currentTime+t);
+                g.gain.linearRampToValueAtTime(0.15,ctx.currentTime+t+0.02);
+                g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+t+0.25);
+                o.start(ctx.currentTime+t); o.stop(ctx.currentTime+t+0.3);
+            });
+        } catch(e){}
+    }
+
+    function checkAchievements(context) {
+        // context = { rankKey, soloQCount, soloAttempts, hintsUsedCount, usedQ4, usedOnlyQ1, isMulti, isFirstMulti, isFirstInRoom, wins }
+        loadAchievements(() => {
+            // RACHA
+            if(streakCount >= 3)  unlockAchievement('streak3');
+            if(streakCount >= 7)  unlockAchievement('streak7');
+            if(streakCount >= 30) unlockAchievement('streak30');
+
+            // RENDIMIENTO
+            if(context.wins >= 1)  unlockAchievement('win1');
+            if(context.wins >= 10) unlockAchievement('win10');
+            if(context.wins >= 25) unlockAchievement('win25');
+            if(context.rankKey === 'master') unlockAchievement('master1');
+            if(context.hintsUsedCount === 0 && soloType === 'daily') unlockAchievement('nohints');
+            if(context.isOptimal) unlockAchievement('optimal');
+
+            // ESTILO
+            if(!context.usedQ4)     unlockAchievement('noQ4');
+            if(context.usedOnlyQ1)  unlockAchievement('onlyQ1');
+            if(context.soloAttempts >= 1) unlockAchievement('lastlife');
+            if(soloType === 'daily' && context.soloQCount < 15) unlockAchievement('speed15');
+
+            // MULTI
+            if(context.isMulti)      unlockAchievement('multi1');
+            if(context.isFirstInRoom) unlockAchievement('multifirst');
+        });
     }
 
     // --- TUTORIAL ---
