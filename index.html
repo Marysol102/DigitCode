@@ -679,7 +679,7 @@
     <div class="crt-vignette"></div>
     <div class="login-box">
         <h2 class="glitch-title" data-text="HIDE CODE">HIDE CODE</h2>
-        <input type="text" id="p-name" placeholder="Tu Nombre">
+        <input type="text" id="p-name" placeholder="Tu Nombre" oninput="onNameInput(this.value)">
         <div style="display:flex; gap:10px; align-items:center;">
             <input type="text" id="p-room" placeholder="Cód. Sala" style="margin-bottom:0">
             <button onclick="connectMulti()" style="width:auto; padding:12px; background:var(--neon-blue); color:#000;">ENTRAR</button>
@@ -1954,6 +1954,17 @@
     let streakMax   = 0;
     let streakDays  = []; // array de dateStr completados
 
+
+    function onNameInput(val) {
+        const name = val.trim().toUpperCase();
+        if(!name) {
+            streakCount = 0; streakMax = 0; streakDays = [];
+            renderStreakBadge();
+            return;
+        }
+        myName = name;
+        loadStreak();
+    }
     function loadStreak() {
         if(!myName) return;
         db.ref('users/' + myName + '/streak').once('value', s => {
