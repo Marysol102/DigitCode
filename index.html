@@ -1939,7 +1939,7 @@
             soloLogEntries.slice().reverse().forEach(entry => {
                 if(!entry.isSystem) applyLogToSheet(entry.msg);
             });
-            if(data.board) restoreState(data.board);
+            if(data.board) applyState(data.board);
             activateSoloGame();
             logSolo('↩️ Sesión restaurada — continuando donde lo dejaste', 'var(--neon-purple)', true);
         });
