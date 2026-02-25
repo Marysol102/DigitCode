@@ -154,7 +154,12 @@
         .labels-side { display: flex; flex-direction: column; border-right: 2px solid #334155; padding-right: 15px; margin-top: 42px; } 
         .label-row { display: flex; align-items: center; justify-content: flex-end; gap: 8px; height: var(--seg-h-thick); margin-bottom: 15px; font-weight: bold; font-size: 14px; color: var(--text-muted); font-family: 'Orbitron', sans-serif; }
         .label-row:last-child { margin-bottom: 0; }
-        .label-row:nth-child(3) { margin-top: 20px; }
+        /* Ajuste fino de alineación de filas J-N y O-S */
+        .label-row:nth-child(1) { margin-top: 0px; }
+        .label-row:nth-child(2) { margin-top: 1px; }
+        .label-row:nth-child(3) { margin-top: 5px; }
+        .label-row:nth-child(4) { margin-top: 1px; }
+        .label-row:nth-child(5) { margin-top: 3px; }
         
         input { 
             background: transparent; border: none; border-bottom: 1px solid #475569; 
