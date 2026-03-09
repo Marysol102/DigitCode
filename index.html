@@ -14,7 +14,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta charset="UTF-8">
-    <title>Hide Code - Master Edition Online</title>
+    <title>Hidden Codes - Master Edition Online</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 
@@ -156,10 +156,10 @@
         .label-row:last-child { margin-bottom: 0; }
         /* Ajuste fino de alineación de filas J-N y O-S */
         .label-row:nth-child(1) { margin-top: 0px; }
-        .label-row:nth-child(2) { margin-top: 1px; }
-        .label-row:nth-child(3) { margin-top: 5px; }
-        .label-row:nth-child(4) { margin-top: 1px; }
-        .label-row:nth-child(5) { margin-top: 3px; }
+        .label-row:nth-child(2) { margin-top: 0px; }
+        .label-row:nth-child(3) { margin-top: 20px; }
+        .label-row:nth-child(4) { margin-top: 0px; }
+        .label-row:nth-child(5) { margin-top: 0px; }
         
         input { 
             background: transparent; border: none; border-bottom: 1px solid #475569; 
@@ -684,7 +684,7 @@
     <div class="scanlines-layer"></div>
     <div class="crt-vignette"></div>
     <div class="login-box">
-        <h2 class="glitch-title" data-text="HIDE CODE">HIDE CODE</h2>
+        <h2 class="glitch-title" data-text="HIDDEN CODES">HIDDEN CODES</h2>
         <input type="text" id="p-name" placeholder="Tu Nombre" oninput="onNameInput(this.value)">
         <div style="display:flex; gap:10px; align-items:center;">
             <input type="text" id="p-room" placeholder="Cód. Sala" style="margin-bottom:0">
@@ -743,8 +743,8 @@
         <div class="tut-slide" id="tslide-0" style="padding:35px 40px; display:flex; flex-direction:column; justify-content:center;">
             <div style="font-size:40px; margin-bottom:16px;">🕵️</div>
             <div class="tut-tag">INTRODUCCIÓN</div>
-            <h2 class="tut-h2">¿Qué es Hide Code?</h2>
-            <p class="tut-p">Hide Code es un juego de <span class="tut-strong">deducción lógica</span>. Hay un código secreto de <span class="tut-strong">6 dígitos</span> (del 0 al 9) oculto, y tu misión es descifrarlo.</p>
+            <h2 class="tut-h2">¿Qué es Hidden Codes?</h2>
+            <p class="tut-p">Hidden Codes es un juego de <span class="tut-strong">deducción lógica</span>. Hay un código secreto de <span class="tut-strong">6 dígitos</span> (del 0 al 9) oculto, y tu misión es descifrarlo.</p>
             <p class="tut-p">Los dígitos no se muestran directamente — están representados como <span class="tut-strong">displays de 7 segmentos</span>, igual que en una calculadora antigua. Tú deduces el código haciendo preguntas inteligentes.</p>
             <div class="tut-seg-row">
                 <div class="tut-dw"><div class="tut-lbl">T</div><div class="tut-seg-d"><div class="ts h sa on"></div><div class="ts v sb on"></div><div class="ts v sc on"></div><div class="ts h sd on"></div><div class="ts v se off"></div><div class="ts v sf on"></div><div class="ts h sg on"></div></div><div class="tut-val">?</div></div>
@@ -881,7 +881,7 @@
 
 <div class="wrapper" id="w">
     <div class="sheet" id="sheet-bg">
-        <div class="header-title">HIDE CODE</div>
+        <div class="header-title">HIDDEN CODES</div>
         
         <div class="tools-bar">
             <button class="tool-btn" id="btn-undo" onclick="execUndo()" title="Deshacer" disabled>
@@ -1698,7 +1698,7 @@
                 return `${pos} ${name}${isMe ? ' ◀' : ''} · ${turns} · ${rrank}`;
             }).join('\n');
             const total = document.getElementById('rank-total').innerText;
-            txt = `HIDE CODE — Código Diario ${today}\n🏆 ${soloQCount} turnos · ${rankLabel} · 💡 ${hintsUsedCount} pista${hintsUsedCount !== 1 ? "s" : ""}\n\n📊 CLASIFICACIÓN DEL DÍA\n${badge}\n${rankRows}\n${total}\n\nhttps://bit.ly/MλryS0l`;
+            txt = `HIDDEN CODES — Código Diario ${today}\n🏆 ${soloQCount} turnos · ${rankLabel} · 💡 ${hintsUsedCount} pista${hintsUsedCount !== 1 ? "s" : ""}\n\n📊 CLASIFICACIÓN DEL DÍA\n${badge}\n${rankRows}\n${total}\n\nhttps://bit.ly/MλryS0l`;
         }
         navigator.clipboard.writeText(txt).then(() => {
             alert("¡Resultado copiado al portapapeles!");
